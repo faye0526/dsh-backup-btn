@@ -1,0 +1,44 @@
+{
+  "name": "dsh-backup-btn",
+  "version": "1.0.0",
+  "description": "DSH 一键备份按钮 - 浮动按钮备份 DSH 数据到 GitHub Gist",
+  "author": "faye0526",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/faye0526/dsh-backup-btn.git"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "backup",
+    "github-gist",
+    "plugin"
+  ],
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md"
+  ]
+}
