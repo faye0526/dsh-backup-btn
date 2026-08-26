@@ -178,9 +178,9 @@ window.__ModuleLoader__.load({
 
     function renderSVG() {
       return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
-  <polyline points="17,21 17,13 7,13 7,21"/>
-  <polyline points="7,3 7,8 15,8"/>
+  <polyline points="16,16 12,12 8,16"/>
+  <line x1="12" y1="12" x2="12" y2="21"/>
+  <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
 </svg>`
     }
 
@@ -413,7 +413,7 @@ window.__ModuleLoader__.load({
       if (!btn) return
       btn.className = ''
       btn.innerHTML = renderSVG()
-      btn.title = 'DSH 一键备份到 GitHub Gist'
+      btn.title = '备份到 GitHub Gist'
       btn.disabled = false
     }
 
@@ -428,7 +428,7 @@ window.__ModuleLoader__.load({
 
       const btn = document.createElement('button')
       btn.id = FAB_ID
-      btn.title = 'DSH 一键备份到 GitHub Gist'
+      btn.title = '备份到 GitHub Gist'
       btn.innerHTML = renderSVG()
       btn.setAttribute('aria-label', '备份')
       document.body.appendChild(btn)
