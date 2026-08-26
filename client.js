@@ -155,6 +155,119 @@ window.__ModuleLoader__.load({
   background: #a0a0a0;
   cursor: not-allowed;
 }
+
+/* info panel */
+#${MODAL_ID} .info-panel {
+  display: flex;
+  gap: 12px;
+  background: #f0f7ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #1e40af;
+  line-height: 1.5;
+}
+#${MODAL_ID} .info-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+#${MODAL_ID} .info-text {
+  color: #1e40af;
+}
+
+/* step sections */
+#${MODAL_ID} .step {
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #f0f0f0;
+}
+#${MODAL_ID} .step:last-of-type {
+  border-bottom: none;
+}
+#${MODAL_ID} .step-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2328;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#${MODAL_ID} .step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: #4f6ef7;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+#${MODAL_ID} .step-required {
+  font-size: 11px;
+  font-weight: 400;
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+}
+#${MODAL_ID} .step-optional-tag {
+  font-size: 11px;
+  font-weight: 400;
+  color: #16a34a;
+  background: #f0fdf4;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid #bbf7d0;
+}
+#${MODAL_ID} .step-desc {
+  font-size: 13px;
+  color: #57606a;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+#${MODAL_ID} .step-hint {
+  font-size: 12px;
+  color: #8b949e;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* token row */
+#${MODAL_ID} .token-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+#${MODAL_ID} .token-row input {
+  flex: 1;
+}
+#${MODAL_ID} .create-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  background: #fff;
+  color: #4f6ef7;
+  border: 1.5px solid #4f6ef7;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+#${MODAL_ID} .create-btn:hover {
+  background: #eff6ff;
+}
 `
 
     // ============ HELPERS ============
@@ -241,20 +354,58 @@ window.__ModuleLoader__.load({
       modal.id = MODAL_ID
       modal.innerHTML = `
         <div class="modal-content">
-          <h3>🔧 配置 DSH 备份</h3>
-          <div class="field">
-            <label>GitHub Gist ID</label>
-            <input type="text" id="dsh-backup-gist-id" placeholder="留空则新建 Gist" value="${cfg.gistId || ''}">
-            <div class="hint">留空自动创建新 Gist，或填写已有 Gist ID</div>
+          <h3>🔧 DSH 数据备份设置</h3>
+
+          <!-- 说明面板 -->
+          <div class="info-panel">
+            <div class="info-icon">💡</div>
+            <div class="info-text">
+              备份数据将安全存储在你的 GitHub Gist（私有代码片段空间）。
+              只需 2 步：创建 Token → 开始备份。
+              数据完全由你掌控，仅你可见。
+            </div>
           </div>
-          <div class="field">
-            <label>GitHub Personal Access Token</label>
-            <input type="password" id="dsh-backup-token" placeholder="ghp_xxxx..." value="${cfg.token || ''}">
-            <div class="hint">需要 gist 权限，<a href="https://github.com/settings/tokens/new?scopes=gist&description=DSH%20Backup" target="_blank">点击创建</a></div>
+
+          <!-- Step 1: Token -->
+          <div class="step">
+            <div class="step-label">
+              <span class="step-num">1</span>
+              GitHub Token
+              <span class="step-required">*必填</span>
+            </div>
+            <div class="step-desc">Token 是 GitHub 的访问凭证，用于将备份数据写入你的账号。</div>
+            <div class="token-row">
+              <input type="password" id="dsh-backup-token"
+                placeholder="粘贴 Token（ghp_ 开头）"
+                value="${cfg.token || ''}">
+              <a class="create-btn"
+                href="https://github.com/settings/tokens/new?scopes=gist&description=DSH%20Backup"
+                target="_blank">
+                🔑 创建 Token
+              </a>
+            </div>
+            <div class="step-hint">
+              点击「创建 Token」→ 页面自动勾选 gist 权限 → 拉到底点 Generate token → 复制粘贴到左侧输入框
+            </div>
           </div>
+
+          <!-- Step 2: Gist ID（可选） -->
+          <div class="step step-optional">
+            <div class="step-label">
+              <span class="step-num">2</span>
+              存储位置（Gist ID）
+              <span class="step-optional-tag">可选</span>
+            </div>
+            <div class="step-desc">留空则自动创建新的私有 Gist 来存放备份。</div>
+            <input type="text" id="dsh-backup-gist-id"
+              placeholder="留空自动创建，或粘贴已有 Gist ID"
+              value="${cfg.gistId || ''}">
+          </div>
+
+          <!-- 操作按钮 -->
           <div class="actions">
             <button class="btn-cancel">取消</button>
-            <button class="btn-save">保存</button>
+            <button class="btn-save">💾 保存并备份</button>
           </div>
         </div>
       `
@@ -277,7 +428,7 @@ window.__ModuleLoader__.load({
           token: tokenInput.value.trim(),
         }
         if (!newCfg.token) {
-          showToast('❌ Token 不能为空')
+          showToast('❌ 请先填写 GitHub Token')
           return
         }
         saveConfig(newCfg)
